@@ -1,5 +1,7 @@
 package com.example.wn.greentrack;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -98,7 +100,14 @@ public class PhotographFragment extends Fragment {
         }
     }
     private void ToCheck(){
-
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(imageView,"alpha",1f,0f);
+        ObjectAnimator rotate = ObjectAnimator.ofFloat(imageView,"rotation",0f,720f);
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(imageView,"scaleX",1f,0f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(imageView,"scaleY",1f,0f);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(alpha).with(rotate).with(scaleX).with(scaleY);
+        animatorSet.setDuration(3000);
+        animatorSet.start();
     }
     public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
