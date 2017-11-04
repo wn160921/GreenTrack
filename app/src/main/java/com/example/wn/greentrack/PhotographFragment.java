@@ -98,7 +98,7 @@ public class PhotographFragment extends Fragment {
         }
     }
     private void ToCheck(){
-        
+
     }
     public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
