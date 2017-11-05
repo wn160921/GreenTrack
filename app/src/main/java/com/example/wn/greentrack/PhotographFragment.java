@@ -63,7 +63,7 @@ public class PhotographFragment extends Fragment {
             e.printStackTrace();
         }
         if(Build.VERSION.SDK_INT>=24){
-            imageUri= FileProvider.getUriForFile(getContext().getApplicationContext(),"com.example.traver.fileprovider",outputImage1);
+            imageUri= FileProvider.getUriForFile(getContext().getApplicationContext(),"com.example.wn.greentrack.fileprovider",outputImage1);
         }else {
             imageUri= Uri.fromFile(outputImage1);
         }

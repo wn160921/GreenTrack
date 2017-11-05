@@ -1,6 +1,11 @@
 package com.example.wn.greentrack;
 
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -11,13 +16,22 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.ashokvarma.bottomnavigation.behaviour.BottomNavBarFabBehaviour;
+import com.example.wn.greentrack.net.OkHttpManager;
+import com.example.wn.greentrack.side.AboutUsActivity;
+import com.example.wn.greentrack.side.HelpActivity;
+import com.example.wn.greentrack.util.Utils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Request;
 
 public class WorkActivity extends AppCompatActivity {
     BottomNavigationBar bottomNavigationBar;
@@ -27,10 +41,25 @@ public class WorkActivity extends AppCompatActivity {
     PhotographFragment photographFragment;
     BusinessFragment businessFragment;
     IntrodutionFragment introdutionFragment;
+
+    Button about_us;
+    Button help;
+    Button exit;
+    TextView jifen;
+    Handler handler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work);
+//        handler = new Handler(){
+//            public void handleMessage(Message msg){
+//                switch (msg.what){
+//                    case 1:
+//                        jifen.setText("当前积分为："+String.valueOf(msg.arg1));
+//                }
+//            }
+//        };
+        init_side_button();
         drawerLayout = findViewById(R.id.drawlayout);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -101,4 +130,54 @@ public class WorkActivity extends AppCompatActivity {
         myFragmentAdapter = new MyFragmentAdapter(getSupportFragmentManager(),fragmentList);
         viewPager.setAdapter(myFragmentAdapter);
     }
+    private void init_side_button(){
+        about_us = findViewById(R.id.about_us);
+        help = findViewById(R.id.help);
+        exit = findViewById(R.id.exit);
+        jifen = findViewById(R.id.jifen);
+        SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
+        String logined = pref.getString("username","");
+        getIntegral(logined);
+        about_us.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(WorkActivity.this, AboutUsActivity.class);
+                startActivity(intent);
+            }
+        });
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(WorkActivity.this, HelpActivity.class);
+                startActivity(intent);
+            }
+        });
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+                editor.putBoolean("logined",false);
+                editor.apply();
+                Intent intent = new Intent(WorkActivity.this,LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
+    private void getIntegral(String user){
+        OkHttpManager okHttpManager = OkHttpManager.getInstance();
+        okHttpManager.postNet("http://192.168.1.101:8080/gtf",
+                new OkHttpManager.ResultCallback(){
+
+                    @Override
+                    public void onFailed(Request request, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        jifen.setText("当前积分为"+s);
+                    }
+                },new OkHttpManager.Param("user",user));
+    };
 }

@@ -49,16 +49,31 @@
             android:src="@mipmap/logo"
             android:layout_width="120dp"
             android:layout_height="120dp" />
+        <TextView
+            android:layout_gravity="center"
+            android:id="@+id/jifen"
+            android:textSize="36sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <Button
+            android:layout_gravity="center"
             android:id="@+id/help"
             android:text="使用帮助"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
+            android:layout_gravity="center"
             android:id="@+id/about_us"
             android:text="关于我们"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_gravity="center"
+            android:id="@+id/exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="退出登录" />
     </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>

@@ -7,7 +7,8 @@
     android:orientation="vertical"
     tools:context="com.example.wn.greentrack.side.HelpActivity">
     <TextView
-
+        android:textSize="36sp"
+        android:text="@string/help"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>
