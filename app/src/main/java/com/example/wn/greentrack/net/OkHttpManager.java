@@ -1,25 +1,37 @@
 package com.example.wn.greentrack.net;
 
+import android.content.ContentResolver;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.util.Log;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by wn on 2017/11/4.
  */
 
 public class OkHttpManager {
+    public static final MediaType MEDIA_TYPE_MARKDOWN
+            = MediaType.parse("image/png");
     private static OkHttpManager instance;
     private OkHttpClient okHttpClient;
     private Handler okhandler;
@@ -56,6 +68,16 @@ public class OkHttpManager {
                 .build();
         dealNet(request,resultCallback);
     }
+    public void postFile(String url,File file, ResultCallback resultCallback) {
+        //Log.d("upload",path);
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM);
+        builder.addFormDataPart("file",file.getName(), RequestBody.create(MediaType.parse("image/png"),file));
+        Request request  = new Request.Builder().url(url).post(builder.build()).build();
+        dealNet(request,resultCallback);
+    }
+
+
 
     private void dealNet(final Request request, final ResultCallback resultCallback){
         Log.d("http","dealnet");
@@ -111,4 +133,5 @@ public class OkHttpManager {
                 .build();
         dealNet(request, resultCallback);
     }
+
 }

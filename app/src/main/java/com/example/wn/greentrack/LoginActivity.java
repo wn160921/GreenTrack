@@ -31,14 +31,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d("test","注册");
-                check("http://192.168.1.101:8080/abc");
+                check(Constant.url+"abc");
             }
         });
         register = findViewById(R.id.registerBtn);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                check("http://192.168.1.101:8080/register");
+                check(Constant.url+"register");
             }
         });
 

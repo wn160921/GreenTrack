@@ -2,7 +2,10 @@ package com.example.wn.greentrack;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
@@ -12,26 +15,32 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.wn.greentrack.net.OkHttpManager;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import okhttp3.Request;
+
 import static android.app.Activity.RESULT_OK;
 
 public class PhotographFragment extends Fragment {
-    byte[] b;
+    //byte[] b;
     ByteArrayOutputStream baos;
     ImageView imageView;
     Button button;
     public static final int TAKE_PHOTO=1;
     Uri imageUri;
+    File outputImage1;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +62,7 @@ public class PhotographFragment extends Fragment {
     }
 
     public void paishe(){
-        File outputImage1=new File(getActivity().getExternalCacheDir(),"output_imageT.jpg");
+        outputImage1 =new File(getActivity().getExternalCacheDir(),((WorkActivity)getActivity()).getUsernaem()+".jpg");
         try{
             if(outputImage1.exists()){
                 outputImage1.delete();
@@ -84,16 +93,16 @@ public class PhotographFragment extends Fragment {
                         options.inSampleSize=calculateInSampleSize(options,300,300);
                         options.inJustDecodeBounds=false;
                         Bitmap bitmap= BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(imageUri),rect,options);
-                        baos=new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG,100,baos);
-                        b=null;
-                        b=baos.toByteArray();
+                        //baos=new ByteArrayOutputStream();
+                        //bitmap.compress(Bitmap.CompressFormat.PNG,100,baos);
+                        //b=null;
+                        //b=baos.toByteArray();
                         imageView.setImageBitmap(bitmap);
                     }catch (FileNotFoundException e){
                         e.printStackTrace();
                     }
+                    ToCheck();
                 }
-                ToCheck();
                 break;
             default:
                 break;
@@ -108,6 +117,19 @@ public class PhotographFragment extends Fragment {
         animatorSet.play(alpha).with(rotate).with(scaleX).with(scaleY);
         animatorSet.setDuration(3000);
         animatorSet.start();
+        OkHttpManager okHttpManager = OkHttpManager.getInstance();
+        okHttpManager.postFile(Constant.url + "/upload",outputImage1 , new OkHttpManager.ResultCallback() {
+            @Override
+            public void onFailed(Request request, IOException e) {
+                Log.d("upload","failed");
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                Log.d("upload",s);
+            }
+        });
+        ((WorkActivity)getActivity()).addIntegral(1);
     }
     public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
