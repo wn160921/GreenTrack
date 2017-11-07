@@ -20,6 +20,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.example.wn.greentrack.net.OkHttpManager;
 import com.example.wn.greentrack.side.AboutUsActivity;
 import com.example.wn.greentrack.side.HelpActivity;
+import com.example.wn.greentrack.util.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -84,6 +85,7 @@ public class WorkActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
+                jifen.setText("当前积分："+Constant.jifen);
                 break;
         }
         return true;
@@ -122,9 +124,10 @@ public class WorkActivity extends AppCompatActivity {
         help = findViewById(R.id.help);
         exit = findViewById(R.id.exit);
         jifen = findViewById(R.id.jifen);
-        SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
-        String logined = pref.getString("username","");
-        getIntegral(logined);
+        Utils.getIntegral();
+        Constant.textView=jifen;
+        Utils.getIntegral();
+        jifen.setText("当前积分："+ String.valueOf(Constant.jifen));
         about_us.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -151,42 +154,5 @@ public class WorkActivity extends AppCompatActivity {
             }
         });
     }
-    public void getIntegral(String user){
-        OkHttpManager okHttpManager = OkHttpManager.getInstance();
-        okHttpManager.postNet(Constant.url+"gtf",
-                new OkHttpManager.ResultCallback(){
 
-                    @Override
-                    public void onFailed(Request request, IOException e) {
-
-                    }
-
-                    @Override
-                    public void onSuccess(String s) {
-                        jifenshu = Integer.valueOf(s);
-                        jifen.setText("当前积分为"+s);
-                    }
-                },new OkHttpManager.Param("user",user));
-    }
-    public void addIntegral(int add){
-        OkHttpManager okHttpManager = OkHttpManager.getInstance();
-        okHttpManager.postNet(Constant.url + "/setjifen", new OkHttpManager.ResultCallback() {
-            @Override
-            public void onFailed(Request request, IOException e) {
-
-            }
-
-            @Override
-            public void onSuccess(String s) {
-                SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
-                String logined = pref.getString("username","");
-                getIntegral(logined);
-            }
-        },new OkHttpManager.Param("user",getUsernaem()),new OkHttpManager.Param("add",String.valueOf(jifenshu+add)));
-    }
-    public String getUsernaem(){
-        SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
-        String logined = pref.getString("username","");
-        return logined;
-    }
 }

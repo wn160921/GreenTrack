@@ -1,14 +1,8 @@
 package com.example.wn.greentrack.util;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Message;
-import android.widget.TextView;
-
+import com.example.wn.greentrack.Constant;
 import com.example.wn.greentrack.net.OkHttpManager;
-
 import java.io.IOException;
-import java.util.logging.Handler;
 
 import okhttp3.Request;
 
@@ -17,9 +11,9 @@ import okhttp3.Request;
  */
 
 public class Utils {
-    public static void getIntegral(String user, final Activity activity){
+    public static void getIntegral(){
         OkHttpManager okHttpManager = OkHttpManager.getInstance();
-        okHttpManager.postNet("http://192.168.1.101:8080/gtf",
+        okHttpManager.postNet(Constant.url+"gtf",
                 new OkHttpManager.ResultCallback(){
 
                     @Override
@@ -29,8 +23,24 @@ public class Utils {
 
                     @Override
                     public void onSuccess(String s) {
-
+                        Constant.jifen=Integer.valueOf(s);
+                        Constant.textView.setText("当前积分："+Constant.jifen);
                     }
-                },new OkHttpManager.Param("user",user));
-    };
+                },new OkHttpManager.Param("user",Constant.username));
+    }
+
+    public static void addIntegral(int add){
+        OkHttpManager okHttpManager = OkHttpManager.getInstance();
+        okHttpManager.postNet(Constant.url + "/setjifen", new OkHttpManager.ResultCallback() {
+            @Override
+            public void onFailed(Request request, IOException e) {
+
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                getIntegral();
+            }
+        },new OkHttpManager.Param("user",Constant.username),new OkHttpManager.Param("add",String.valueOf(add)));
+    }
 }

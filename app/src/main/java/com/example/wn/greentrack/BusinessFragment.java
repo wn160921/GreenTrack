@@ -39,7 +39,7 @@ public class BusinessFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_business, container, false);
         recyclerView = view.findViewById(R.id.recycle);
         initDiscount();
-        discountAdapter = new DiscountAdapter(discountList);
+        discountAdapter = new DiscountAdapter(discountList,this.getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
@@ -74,10 +74,13 @@ public class BusinessFragment extends Fragment {
 
             @Override
             public void onSuccess(String s) {
+                if(s.length()>0){
+                    discountList.clear();
+                }
                 String[] splitefirst = s.split(";");
                 for(int i=0;i<splitefirst.length;i++){
                     String[] splite_second = splitefirst[i].split(",");
-                    discountList.add(new Discount(splite_second[0],splite_second[1],splite_second[2]));
+                    discountList.add(new Discount(splite_second[0],splite_second[1],splite_second[2],Integer.valueOf(splite_second[3])));
                 }
                 recyclerView.refreshComplete();
                 discountAdapter.notifyDataSetChanged();

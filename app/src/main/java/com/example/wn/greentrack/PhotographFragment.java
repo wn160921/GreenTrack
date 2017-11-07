@@ -1,7 +1,10 @@
 package com.example.wn.greentrack;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -13,6 +16,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
@@ -23,6 +27,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.wn.greentrack.net.OkHttpManager;
+import com.example.wn.greentrack.util.Utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -62,7 +67,7 @@ public class PhotographFragment extends Fragment {
     }
 
     public void paishe(){
-        outputImage1 =new File(getActivity().getExternalCacheDir(),((WorkActivity)getActivity()).getUsernaem()+".jpg");
+        outputImage1 =new File(getActivity().getExternalCacheDir(),Constant.username+".jpg");
         try{
             if(outputImage1.exists()){
                 outputImage1.delete();
@@ -109,14 +114,36 @@ public class PhotographFragment extends Fragment {
         }
     }
     private void ToCheck(){
-        ObjectAnimator alpha = ObjectAnimator.ofFloat(imageView,"alpha",1f,0f);
-        ObjectAnimator rotate = ObjectAnimator.ofFloat(imageView,"rotation",0f,720f);
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(imageView,"scaleX",1f,0f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(imageView,"scaleY",1f,0f);
-        AnimatorSet animatorSet = new AnimatorSet();
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(imageView,"alpha",1f,0.4f,1f);
+        ObjectAnimator rotate = ObjectAnimator.ofFloat(imageView,"rotation",0f,360f,0f);
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(imageView,"scaleX",1f,0.3f,1f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(imageView,"scaleY",1f,0.3f,1f);
+        final AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.play(alpha).with(rotate).with(scaleX).with(scaleY);
         animatorSet.setDuration(3000);
         animatorSet.start();
+        animatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                    animation.resume();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
         OkHttpManager okHttpManager = OkHttpManager.getInstance();
         okHttpManager.postFile(Constant.url + "/upload",outputImage1 , new OkHttpManager.ResultCallback() {
             @Override
@@ -126,10 +153,12 @@ public class PhotographFragment extends Fragment {
 
             @Override
             public void onSuccess(String s) {
+                //animatorSet.end();
                 Log.d("upload",s);
+                imageView.setImageResource(R.mipmap.logo);
             }
         });
-        ((WorkActivity)getActivity()).addIntegral(1);
+        Utils.addIntegral(1);
     }
     public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {

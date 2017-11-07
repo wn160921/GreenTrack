@@ -24,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean checkLogin(){
         SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
         boolean logined = pref.getBoolean("logined",false);
+        if(logined){
+            Constant.username = pref.getString("username","");
+        }
         return logined;
     }
 }

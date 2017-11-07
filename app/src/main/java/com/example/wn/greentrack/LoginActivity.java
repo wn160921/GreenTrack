@@ -57,12 +57,14 @@ public class LoginActivity extends AppCompatActivity {
                 weiteShared();
                 Intent intent = new Intent(LoginActivity.this,WorkActivity.class);
                 startActivity(intent);
+                finish();
             }
         },new OkHttpManager.Param("username",user.getText().toString()),new OkHttpManager.Param("password",pwd.getText().toString()));
     }
     private void weiteShared(){
         SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
         editor.putString("username",user.getText().toString());
+        Constant.username=user.getText().toString();
         editor.putBoolean("logined",true);
         editor.apply();
     }
