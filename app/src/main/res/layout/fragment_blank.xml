@@ -1,13 +1,37 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context="com.example.wn.greentrack.IntrodutionFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="intro读题哦你" />
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/situation"
+            android:text="现状"
+            style="@style/jieshaoBut" />
+        <LinearLayout
+            android:id="@+id/xzll"
+            style="@style/introduceLL">
+            <TextView
+                android:textSize="25sp"
+                android:text="@string/xianzhung"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <Button
+            android:id="@+id/canhe"
+            android:text="各类餐盒介绍"
+            style="@style/jieshaoBut" />
+        <LinearLayout
+            style="@style/introduceLL"
+            android:id="@+id/chll"
+            >
 
-</FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

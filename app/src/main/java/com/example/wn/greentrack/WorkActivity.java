@@ -37,9 +37,9 @@ public class WorkActivity extends AppCompatActivity {
     BusinessFragment businessFragment;
     IntrodutionFragment introdutionFragment;
 
-    Button about_us;
-    Button help;
-    Button exit;
+    TextView about_us;
+    TextView help;
+    TextView exit;
     TextView jifen;
     private int jifenshu;
     @Override
@@ -53,7 +53,7 @@ public class WorkActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if( actionBar != null){
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.mipmap.settings);
+            actionBar.setHomeAsUpIndicator(R.mipmap.setting);
         }
         bottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
         bottomNavigationBar

@@ -6,17 +6,19 @@
     android:layout_height="match_parent"
     android:id="@+id/drawlayout"
     tools:context="com.example.wn.greentrack.WorkActivity">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <android.support.v7.widget.Toolbar
             android:layout_alignParentStart="true"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.Light"
-            android:background="@color/green">
-        </android.support.v7.widget.Toolbar>
+            android:theme="@style/ToolbarTheme"
+            android:background="@color/green"></android.support.v7.widget.Toolbar>
+
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
 
@@ -26,6 +28,7 @@
             android:layout_height="match_parent">
 
         </android.support.v4.view.ViewPager>
+
         <com.ashokvarma.bottomnavigation.BottomNavigationBar
             android:layout_alignParentBottom="true"
             android:id="@+id/bottom_navigation_bar"
@@ -34,46 +37,51 @@
             app:bnbBackgroundStyle="background_style_static"
             app:bnbBackgroundColor="#F1F8E9"
             app:bnbInactiveColor="#1565C0"
-            app:bnbActiveColor="#8BC34A"
-            />
+            app:bnbActiveColor="#8BC34A" />
     </RelativeLayout>
+
     <LinearLayout
-        android:background="#AED581"
+        android:background="@color/green"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="start">
+
         <ImageView
             android:layout_margin="20dp"
             android:layout_gravity="center"
             android:src="@mipmap/logo"
             android:layout_width="120dp"
             android:layout_height="120dp" />
-        <TextView
-            android:layout_gravity="center"
-            android:id="@+id/jifen"
-            android:textSize="36sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <Button
-            android:layout_gravity="center"
-            android:id="@+id/help"
-            android:text="使用帮助"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <Button
-            android:layout_gravity="center"
-            android:id="@+id/about_us"
-            android:text="关于我们"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
-        <Button
-            android:layout_gravity="center"
+        <TextView
+            style="@style/buttonStyle"
+            android:id="@+id/jifen"
+             />
+
+        <TextView
+            android:id="@+id/discount"
+            android:text="  我的优惠券"
+            style="@style/buttonStyle"
+            android:drawableLeft="@mipmap/you_hui"/>
+
+        <TextView
+            android:id="@+id/help"
+            android:text="  使用帮助"
+            style="@style/buttonStyle"
+            android:drawableLeft="@mipmap/help"/>
+
+        <TextView
+            android:id="@+id/about_us"
+            android:text="  关于我们"
+            style="@style/buttonStyle"
+            android:drawableLeft="@mipmap/about_us"/>
+
+        <TextView
             android:id="@+id/exit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="退出登录" />
+            android:text="  退出登录"
+            android:drawableLeft="@mipmap/exit"
+            style="@style/buttonStyle"/>
     </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>

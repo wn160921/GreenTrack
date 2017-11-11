@@ -71,11 +71,13 @@ public class BusinessFragment extends Fragment {
                 recyclerView.refreshComplete();
                 Toast.makeText(getContext(),"哎呀，好像出问题了",Toast.LENGTH_SHORT);
             }
-
             @Override
             public void onSuccess(String s) {
                 if(s.length()>0){
                     discountList.clear();
+                }else {
+                    recyclerView.refreshComplete();
+                    return;
                 }
                 String[] splitefirst = s.split(";");
                 for(int i=0;i<splitefirst.length;i++){

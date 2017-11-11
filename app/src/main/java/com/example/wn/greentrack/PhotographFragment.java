@@ -4,9 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -25,6 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.wn.greentrack.net.OkHttpManager;
 import com.example.wn.greentrack.util.Utils;
@@ -39,13 +38,15 @@ import okhttp3.Request;
 import static android.app.Activity.RESULT_OK;
 
 public class PhotographFragment extends Fragment {
-    //byte[] b;
     ByteArrayOutputStream baos;
     ImageView imageView;
     Button button;
+    TextView progress;
     public static final int TAKE_PHOTO=1;
     Uri imageUri;
     File outputImage1;
+    public static int sleeptime = 1000;
+    WaitThread waitThread;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,8 +56,10 @@ public class PhotographFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photograph, container, false);
+        waitThread = new WaitThread();
         imageView = view.findViewById(R.id.imageview);
         button = view.findViewById(R.id.take_photo);
+        progress = view.findViewById(R.id.progress);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,6 +117,9 @@ public class PhotographFragment extends Fragment {
         }
     }
     private void ToCheck(){
+        progress.setVisibility(View.VISIBLE);
+        sleeptime = 1000;
+        waitThread.start();
         ObjectAnimator alpha = ObjectAnimator.ofFloat(imageView,"alpha",1f,0.4f,1f);
         ObjectAnimator rotate = ObjectAnimator.ofFloat(imageView,"rotation",0f,360f,0f);
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(imageView,"scaleX",1f,0.3f,1f);
@@ -130,7 +136,10 @@ public class PhotographFragment extends Fragment {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                    animation.resume();
+                if(sleeptime==1000) {
+                    animation.start();
+                }
+
             }
 
             @Override
@@ -149,16 +158,26 @@ public class PhotographFragment extends Fragment {
             @Override
             public void onFailed(Request request, IOException e) {
                 Log.d("upload","failed");
+                Toast.makeText(getContext(),"网络连接失败",Toast.LENGTH_LONG);
+                progress.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onSuccess(String s) {
-                //animatorSet.end();
-                Log.d("upload",s);
-                imageView.setImageResource(R.mipmap.logo);
+                sleeptime = 200;
+                if(s.length()==1){
+                    Utils.addIntegral(1);
+                    Log.d("upload",s);
+                    progress.setVisibility(View.INVISIBLE);
+                    Toast.makeText(getActivity(),"识别成功，积分+"+s,Toast.LENGTH_LONG).show();
+                    imageView.setImageResource(R.mipmap.logo);
+                }else {
+                    Log.d("upload",s);
+                    Toast.makeText(getActivity(),"哎呀呀，服务器炸了",Toast.LENGTH_LONG).show();
+                    progress.setVisibility(View.INVISIBLE);
+                }
             }
         });
-        Utils.addIntegral(1);
     }
     public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
@@ -180,5 +199,41 @@ public class PhotographFragment extends Fragment {
             }
         }
         return inSampleSize;
+    }
+    /*
+    正在清理工作台
+    正在寻找放大镜
+    正在擦拭相片
+    正在仔细辨别
+    正在最后确认
+    正在发送确认信息
+     */
+    class WaitThread extends Thread {
+        @Override
+        public void run() {
+            try {
+                setTextOrign("正在清理工作台");
+                sleep(sleeptime);
+                setTextOrign("正在寻找放大镜");
+                sleep(sleeptime);
+                setTextOrign("正在擦拭图片");
+                sleep(sleeptime);
+                setTextOrign("正在仔细辨别");
+                sleep(sleeptime);
+                setTextOrign("正在最后确认");
+                sleep(sleeptime);
+                setTextOrign("正在发送确认信息");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void setTextOrign(final String s){
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progress.setText(s);
+            }
+        });
     }
 }
