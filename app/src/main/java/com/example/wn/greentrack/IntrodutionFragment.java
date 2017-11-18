@@ -20,6 +20,11 @@ import android.widget.LinearLayout;
 public class IntrodutionFragment extends Fragment {
     Button situation;
     LinearLayout xzll;
+    Button canhe;
+    LinearLayout chll;
+    Button yinhuan;
+    LinearLayout yhll;
+
     public IntrodutionFragment() {
         // Required empty public constructor
     }
@@ -31,6 +36,14 @@ public class IntrodutionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_blank, container, false);
         situation = view.findViewById(R.id.situation);
         xzll = view.findViewById(R.id.xzll);
+        canhe = view.findViewById(R.id.canhe);
+        chll = view.findViewById(R.id.chll);
+        yinhuan = view.findViewById(R.id.yinhuan);
+        yhll = view.findViewById(R.id.yhll);
+        setOnclick();
+        return view;
+    }
+    public void setOnclick(){
         situation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,8 +56,32 @@ public class IntrodutionFragment extends Fragment {
                 }
             }
         });
-        return view;
+        canhe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(chll.getVisibility() == View.VISIBLE){
+                    changeIcon(canhe,0);
+                    chll.setVisibility(View.GONE);
+                }else {
+                    changeIcon(canhe,1);
+                    chll.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        yinhuan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(yhll.getVisibility() == View.VISIBLE){
+                    changeIcon(yinhuan,0);
+                    yhll.setVisibility(View.GONE);
+                }else {
+                    changeIcon(yinhuan,1);
+                    yhll.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
+
     public void changeIcon(Button b,int i){
         if(i==0){
             Drawable drawable = ContextCompat.getDrawable(getContext(),R.mipmap.up);

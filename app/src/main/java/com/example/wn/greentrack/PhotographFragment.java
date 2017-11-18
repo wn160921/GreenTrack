@@ -57,6 +57,7 @@ public class PhotographFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photograph, container, false);
         waitThread = new WaitThread();
+        waitThread.start();
         imageView = view.findViewById(R.id.imageview);
         button = view.findViewById(R.id.take_photo);
         progress = view.findViewById(R.id.progress);
@@ -119,7 +120,6 @@ public class PhotographFragment extends Fragment {
     private void ToCheck(){
         progress.setVisibility(View.VISIBLE);
         sleeptime = 1000;
-        waitThread.start();
         ObjectAnimator alpha = ObjectAnimator.ofFloat(imageView,"alpha",1f,0.4f,1f);
         ObjectAnimator rotate = ObjectAnimator.ofFloat(imageView,"rotation",0f,360f,0f);
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(imageView,"scaleX",1f,0.3f,1f);
@@ -158,22 +158,24 @@ public class PhotographFragment extends Fragment {
             @Override
             public void onFailed(Request request, IOException e) {
                 Log.d("upload","failed");
-                Toast.makeText(getContext(),"网络连接失败",Toast.LENGTH_LONG);
+                Toast.makeText(getContext(),"网络连接失败",Toast.LENGTH_LONG).show();
                 progress.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onSuccess(String s) {
-                sleeptime = 200;
-                if(s.length()==1){
+                sleeptime = 1000000;
+                waitThread.interrupt();
+                if(s.equals("上传成功")){
                     Utils.addIntegral(1);
                     Log.d("upload",s);
                     progress.setVisibility(View.INVISIBLE);
-                    Toast.makeText(getActivity(),"识别成功，积分+"+s,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"识别成功，积分+2",Toast.LENGTH_SHORT).show();
                     imageView.setImageResource(R.mipmap.logo);
+                    Utils.addIntegral(2);
                 }else {
                     Log.d("upload",s);
-                    Toast.makeText(getActivity(),"哎呀呀，服务器炸了",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"哎呀呀，服务器炸了",Toast.LENGTH_SHORT).show();
                     progress.setVisibility(View.INVISIBLE);
                 }
             }
@@ -212,17 +214,20 @@ public class PhotographFragment extends Fragment {
         @Override
         public void run() {
             try {
-                setTextOrign("正在清理工作台");
-                sleep(sleeptime);
-                setTextOrign("正在寻找放大镜");
-                sleep(sleeptime);
-                setTextOrign("正在擦拭图片");
-                sleep(sleeptime);
-                setTextOrign("正在仔细辨别");
-                sleep(sleeptime);
-                setTextOrign("正在最后确认");
-                sleep(sleeptime);
-                setTextOrign("正在发送确认信息");
+                while (sleeptime==1000){
+                    setTextOrign("正在清理工作台");
+                    sleep(sleeptime);
+                    setTextOrign("正在寻找放大镜");
+                    sleep(sleeptime);
+                    setTextOrign("正在擦拭图片");
+                    sleep(sleeptime);
+                    setTextOrign("正在仔细辨别");
+                    sleep(sleeptime);
+                    setTextOrign("正在最后确认");
+                    sleep(sleeptime);
+                    setTextOrign("正在发送确认信息");
+                    sleep(sleeptime);
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

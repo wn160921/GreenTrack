@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@color/green"
+    android:layout_margin="5dp">
+    <ImageView
+        android:padding="3dp"
+        android:id="@+id/image"
+        android:scaleType="centerCrop"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+    <Button
+        android:id="@+id/tosure"
+        android:text="确认"
+        android:textSize="36sp"
+        android:textColor="@color/white"
+        android:layout_alignParentRight="true"
+        android:background="@color/green"
+        android:layout_width="0dp"
+        android:layout_height="100dp" />
+    <TextView
+        android:layout_toLeftOf="@id/tosure"
+        android:gravity="center_vertical"
+        android:padding="3dp"
+        android:id="@+id/text"
+        android:layout_toRightOf="@id/image"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <TextView
+        android:layout_toLeftOf="@id/tosure"
+        android:gravity="center_vertical"
+        android:id="@+id/cost_text"
+        android:padding="3dp"
+        android:layout_toRightOf="@id/image"
+        android:layout_below="@id/text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+</RelativeLayout>

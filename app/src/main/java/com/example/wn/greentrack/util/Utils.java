@@ -23,8 +23,10 @@ public class Utils {
 
                     @Override
                     public void onSuccess(String s) {
-                        Constant.jifen=Integer.valueOf(s);
-                        Constant.textView.setText("当前积分："+Constant.jifen);
+                        if(true){
+                            Constant.jifen=Integer.valueOf(s);
+                            Constant.textView.setText("当前积分："+Constant.jifen);
+                        }
                     }
                 },new OkHttpManager.Param("user",Constant.username));
     }

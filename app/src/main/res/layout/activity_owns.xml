@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.wn.greentrack.side.HelpActivity">
-    <TextView
-        android:textSize="17sp"
-        android:text="@string/help"
+    tools:context="com.example.wn.greentrack.OwnsActivity">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ownrecycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
 </LinearLayout>

@@ -6,27 +6,32 @@
     tools:context="com.example.wn.greentrack.PhotographFragment">
 
     <ImageView
+        android:layout_weight="9"
         android:id="@+id/imageview"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
         android:layout_width="300dp"
-        android:layout_height="400dp"
+        android:layout_height="0dp"
         android:scaleType="fitCenter"/>
     <TextView
+        android:layout_weight="1"
         android:gravity="center"
         android:textSize="30sp"
         android:textColor="@color/green"
         android:id="@+id/progress"
         android:visibility="invisible"
         android:layout_width="match_parent"
-        android:layout_height="35dp" />
+        android:layout_height="0dp" />
     <Button
+        android:layout_weight="1"
         android:id="@+id/take_photo"
         android:text="拍照"
+        android:textColor="@color/white"
         android:background="@color/green"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_marginBottom="10dp"
+        android:layout_height="0dp" />
 
 </LinearLayout>

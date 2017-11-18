@@ -41,6 +41,7 @@ public class WorkActivity extends AppCompatActivity {
     TextView help;
     TextView exit;
     TextView jifen;
+    TextView discount;
     private int jifenshu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class WorkActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if( actionBar != null){
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.mipmap.setting);
+            actionBar.setHomeAsUpIndicator(R.mipmap.menu);
         }
         bottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
         bottomNavigationBar
@@ -124,6 +125,7 @@ public class WorkActivity extends AppCompatActivity {
         help = findViewById(R.id.help);
         exit = findViewById(R.id.exit);
         jifen = findViewById(R.id.jifen);
+        discount = findViewById(R.id.discount);
         Utils.getIntegral();
         Constant.textView=jifen;
         Utils.getIntegral();
@@ -151,6 +153,13 @@ public class WorkActivity extends AppCompatActivity {
                 Intent intent = new Intent(WorkActivity.this,LoginActivity.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+        discount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WorkActivity.this, OwnsActivity.class);
+                startActivity(intent);
             }
         });
     }

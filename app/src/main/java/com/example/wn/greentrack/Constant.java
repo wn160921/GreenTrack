@@ -11,4 +11,5 @@ public  class Constant {
     public static String username;
     public static int jifen;
     public static TextView textView;
+    public static String shangjia = "小明旗舰店";
 }

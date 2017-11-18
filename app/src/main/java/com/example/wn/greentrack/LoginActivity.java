@@ -2,12 +2,14 @@ package com.example.wn.greentrack;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.design.widget.TextInputEditText;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wn.greentrack.net.OkHttpManager;
@@ -18,8 +20,10 @@ import okhttp3.Request;
 public class LoginActivity extends AppCompatActivity {
     Button login;
     Button register;
-    TextInputEditText user;
-    TextInputEditText pwd;
+    EditText user;
+    EditText pwd;
+    TextView registerChange;
+    TextView loginchange;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,15 +34,44 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("test","注册");
-                check(Constant.url+"abc");
+                if(user.getText().toString().length()<3){
+                    user.setError("too short");
+                }else if(pwd.getText().toString().length()<5){
+                    pwd.setError("too short");
+                }else {
+                    Log.d("test","注册");
+                    check(Constant.url+"abc");
+                }
             }
         });
         register = findViewById(R.id.registerBtn);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                check(Constant.url+"register");
+                if(user.getText().toString().length()<3){
+                    user.setError("too short");
+                }else if(pwd.getText().toString().length()<5){
+                    pwd.setError("too short");
+                }else {
+                    Log.d("test","注册");
+                    check(Constant.url+"register");
+                }
+            }
+        });
+        registerChange = findViewById(R.id.registerview);
+        loginchange = findViewById(R.id.loginview);
+        registerChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                login.setVisibility(View.GONE);
+                register.setVisibility(View.VISIBLE);
+            }
+        });
+        loginchange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                login.setVisibility(View.VISIBLE);
+                register.setVisibility(View.GONE);
             }
         });
 
@@ -54,10 +87,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String s) {
                 Log.d("test",s);
-                weiteShared();
-                Intent intent = new Intent(LoginActivity.this,WorkActivity.class);
-                startActivity(intent);
-                finish();
+                if(s.equals("2")){
+                    Toast.makeText(getBaseContext(),"请检查输入是否有误",Toast.LENGTH_SHORT).show();
+                }else {
+                    weiteShared();
+                    Intent intent = new Intent(LoginActivity.this,WorkActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         },new OkHttpManager.Param("username",user.getText().toString()),new OkHttpManager.Param("password",pwd.getText().toString()));
     }

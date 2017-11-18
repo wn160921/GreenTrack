@@ -17,7 +17,7 @@
             android:id="@+id/xzll"
             style="@style/introduceLL">
             <TextView
-                android:textSize="25sp"
+                android:textSize="17sp"
                 android:text="@string/xianzhung"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -28,9 +28,60 @@
             style="@style/jieshaoBut" />
         <LinearLayout
             style="@style/introduceLL"
-            android:id="@+id/chll"
-            >
-
+            android:id="@+id/chll">
+            <ImageView
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/suliao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="@string/su_liao"
+                android:textSize="17sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:src="@drawable/kejiangjiesuliao"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="@string/ke_jiang_suliao"
+                android:textSize="17sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:src="@drawable/zhiwuxianwei"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="@string/zhi_wu"
+                android:textSize="17sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:src="@drawable/shenwu"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="@string/sheng_wu"
+                android:textSize="17sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <Button
+            android:id="@+id/yinhuan"
+            android:text="隐患"
+            style="@style/jieshaoBut" />
+        <LinearLayout
+            android:id="@+id/yhll"
+            style="@style/introduceLL">
+            <TextView
+                android:textSize="17sp"
+                android:text="@string/yinhuan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
 

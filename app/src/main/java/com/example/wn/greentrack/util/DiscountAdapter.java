@@ -3,6 +3,7 @@ package com.example.wn.greentrack.util;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.wn.greentrack.Constant;
+import com.example.wn.greentrack.QuanActivity;
 import com.example.wn.greentrack.R;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -35,7 +37,17 @@ public class DiscountAdapter extends XRecyclerView.Adapter<DiscountAdapter.ViewH
         holder.textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog_build(discountList.get(holder.getLayoutPosition()-1));
+                Constant.shangjia=holder.textView.getText().toString();
+                Intent intent = new Intent(context, QuanActivity.class);
+                context.startActivity(intent);
+            }
+        });
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Constant.shangjia=holder.textView.getText().toString();
+                Intent intent = new Intent(context, QuanActivity.class);
+                context.startActivity(intent);
             }
         });
         return holder;
@@ -62,24 +74,4 @@ public class DiscountAdapter extends XRecyclerView.Adapter<DiscountAdapter.ViewH
             textView = view.findViewById(R.id.text);
         }
     }
-    public void dialog_build(final Discount discount){
-        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-        dialog.setTitle("优惠信息");
-        dialog.setMessage("积分消耗："+String.valueOf(discount.cost));
-        dialog.setCancelable(true);
-        dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Utils.addIntegral(-Integer.valueOf(discount.cost));
-            }
-        });
-        dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        dialog.show();
-    }
-
 }
