@@ -12,21 +12,16 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.example.wn.greentrack.net.OkHttpManager;
 import com.example.wn.greentrack.side.AboutUsActivity;
 import com.example.wn.greentrack.side.HelpActivity;
 import com.example.wn.greentrack.util.Utils;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Request;
 
 public class WorkActivity extends AppCompatActivity {
     BottomNavigationBar bottomNavigationBar;
