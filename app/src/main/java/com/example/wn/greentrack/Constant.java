@@ -7,7 +7,7 @@ import android.widget.TextView;
  */
 
 public  class Constant {
-    public static String url = "http://60.205.214.54/";
+    public static String url = "http://locahost/";
     public static String username;
     public static int jifen;
     public static TextView textView;

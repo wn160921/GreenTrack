@@ -42,37 +42,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initViews();
-////        register = findViewById(R.id.registerBtn);
-////        register.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-////                if(user.getText().toString().length()<3){
-////                    user.setError("too short");
-////                }else if(pwd.getText().toString().length()<5){
-////                    pwd.setError("too short");
-////                }else {
-////                    Log.d("test","注册");
-////                    check(Constant.url+"register");
-////                }
-////            }
-////        });
-////        registerChange = findViewById(R.id.registerview);
-////        loginchange = findViewById(R.id.loginview);
-////        registerChange.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View v) {
-////                login.setVisibility(View.GONE);
-////                register.setVisibility(View.VISIBLE);
-////            }
-////        });
-//        loginchange.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                login.setVisibility(View.VISIBLE);
-//                //register.setVisibility(View.GONE);
-//            }
-//        });
-
     }
 
     public void initViews(){
@@ -90,17 +59,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         qqLoginBtn.setOnClickListener(this);
         weiboLoginBtn.setOnClickListener(this);
     }
+
+    //登录联网检查
     public void check(String url){
+        final String tag = "登录：";
         OkHttpManager okHttpManager = OkHttpManager.getInstance();
         okHttpManager.postNet(url,new OkHttpManager.ResultCallback(){
             @Override
             public void onFailed(Request request, IOException e) {
-                Log.d("test","失败");
+                Log.d(tag,"联网问题");
             }
-
             @Override
             public void onSuccess(String s) {
-                Log.d("test",s);
+                Log.d(tag,s);
                 if(s.equals("2")){
                     Toast.makeText(getBaseContext(),"账号或密码错误",Toast.LENGTH_SHORT).show();
                 }else {
@@ -124,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.loginBtn:
-                check(Constant.url+"login");
+                check(Constant.url+"UserServlet");
                 break;
             case R.id.qqLogin:
                 mTencent = Tencent.createInstance("1106699587", this.getApplicationContext());

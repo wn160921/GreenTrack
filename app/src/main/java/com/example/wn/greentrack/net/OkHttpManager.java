@@ -105,7 +105,6 @@ public class OkHttpManager {
                     @Override
                     public void run() {
                         resultCallback.onSuccess(finalstr);
-
                     }
                 });
             }
