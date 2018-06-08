@@ -24,11 +24,11 @@ public class Utils {
                     @Override
                     public void onSuccess(String s) {
                         if(true){
-                            Constant.jifen=Integer.valueOf(s);
-                            Constant.textView.setText("当前积分："+Constant.jifen);
+                            Constant.user.setRewardPoints(Integer.valueOf(s));
+                            //Constant.textView.setText("当前积分："+Constant.user.getRewardPoints());
                         }
                     }
-                },new OkHttpManager.Param("user",Constant.username));
+                },new OkHttpManager.Param("user",Constant.user.getUsername()));
     }
 
     public static void addIntegral(int add){
@@ -43,6 +43,6 @@ public class Utils {
             public void onSuccess(String s) {
                 getIntegral();
             }
-        },new OkHttpManager.Param("user",Constant.username),new OkHttpManager.Param("add",String.valueOf(add)));
+        },new OkHttpManager.Param("user",Constant.user.getUsername()),new OkHttpManager.Param("add",String.valueOf(add)));
     }
 }

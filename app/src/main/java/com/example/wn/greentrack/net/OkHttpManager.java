@@ -23,8 +23,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static android.content.ContentValues.TAG;
-
 /**
  * Created by wn on 2017/11/4.
  */

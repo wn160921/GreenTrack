@@ -42,7 +42,7 @@ public class OwnsActivity extends AppCompatActivity {
         getdata();
     }
     public void getdata(){
-        Log.d("discounts",Constant.username);
+        //Log.d("discounts",Constant.username);
         OkHttpManager okHttpManager = OkHttpManager.getInstance();
         okHttpManager.postNet(Constant.url + "own", new OkHttpManager.ResultCallback() {
             @Override
@@ -77,7 +77,7 @@ public class OwnsActivity extends AppCompatActivity {
                 }
                 ownAdapter.notifyDataSetChanged();
             }
-        },new OkHttpManager.Param("user",Constant.username));
+        },new OkHttpManager.Param("user",Constant.user.getUsername()));
     }
     class Quan{
         String imageUrl;

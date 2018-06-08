@@ -99,7 +99,7 @@ public class QuanActivity extends AppCompatActivity {
             holder.tosure.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(Constant.jifen>quanList.get(holder.getLayoutPosition()).cost){
+                    if(Constant.user.getRewardPoints()>quanList.get(holder.getLayoutPosition()).cost){
                         Quan add = quanList.get(holder.getLayoutPosition());
                         tocheck(quanList.get(holder.getLayoutPosition()).text,add);
                     }
@@ -151,7 +151,7 @@ public class QuanActivity extends AppCompatActivity {
                     setown(add);
                 }
             }
-        },new OkHttpManager.Param("user",Constant.username));
+        },new OkHttpManager.Param("user",Constant.user.getUsername()));
     }
     public void setown(final Quan add){
         OkHttpManager okHttpManager = OkHttpManager.getInstance();
@@ -170,6 +170,6 @@ public class QuanActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(),"哎呀呀，服务器炸了",Toast.LENGTH_SHORT).show();
                 }
             }
-        },new OkHttpManager.Param("user",Constant.username),new OkHttpManager.Param("intro",add.text),new OkHttpManager.Param("text",Constant.shangjia));
+        },new OkHttpManager.Param("user",Constant.user.getUsername()),new OkHttpManager.Param("intro",add.text),new OkHttpManager.Param("text",Constant.shangjia));
     }
 }

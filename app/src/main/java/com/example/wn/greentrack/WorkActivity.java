@@ -81,7 +81,7 @@ public class WorkActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
-                jifen.setText("当前积分："+Constant.jifen);
+                jifen.setText("当前积分："+Constant.user.getRewardPoints());
                 break;
         }
         return true;
@@ -122,9 +122,9 @@ public class WorkActivity extends AppCompatActivity {
         jifen = findViewById(R.id.jifen);
         discount = findViewById(R.id.discount);
         Utils.getIntegral();
-        Constant.textView=jifen;
+        //Constant.textView=jifen;
         Utils.getIntegral();
-        jifen.setText("当前积分："+ String.valueOf(Constant.jifen));
+        jifen.setText("当前积分："+ String.valueOf(Constant.user.getRewardPoints()));
         about_us.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

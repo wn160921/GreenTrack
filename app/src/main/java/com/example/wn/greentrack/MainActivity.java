@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.alibaba.fastjson.JSON;
+import com.example.wn.greentrack.domain.User;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -25,7 +28,12 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
         boolean logined = pref.getBoolean("logined",false);
         if(logined){
-            Constant.username = pref.getString("username","");
+            String userJSON = pref.getString("user","");
+            if(!userJSON.equals("")){
+                Constant.user = (User) JSON.parseObject(userJSON,User.class);
+            }else {
+                return false;
+            }
         }
         return logined;
     }

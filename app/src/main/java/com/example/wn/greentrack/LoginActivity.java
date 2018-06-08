@@ -2,7 +2,6 @@ package com.example.wn.greentrack;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,9 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.example.wn.greentrack.domain.User;
 import com.example.wn.greentrack.net.OkHttpManager;
 import com.tencent.connect.common.Constants;
 import com.tencent.tauth.IUiListener;
@@ -37,6 +39,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     ImageButton weiboLoginBtn;
     EditText userET;
     EditText pwdET;
+
+    RelativeLayout loading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +56,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         weiboLoginBtn = findViewById(R.id.weiboLogin);
         userET = findViewById(R.id.username_edit);
         pwdET = findViewById(R.id.pwd_edit);
-
+        loading = findViewById(R.id.loaging);
         login.setOnClickListener(this);
         register.setOnClickListener(this);
         forgetPassword.setOnClickListener(this);
@@ -67,26 +71,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         okHttpManager.postNet(url,new OkHttpManager.ResultCallback(){
             @Override
             public void onFailed(Request request, IOException e) {
+                loading.setVisibility(View.GONE);
+                Toast.makeText(getBaseContext(),"无法联网",Toast.LENGTH_SHORT).show();
                 Log.d(tag,"联网问题");
             }
             @Override
             public void onSuccess(String s) {
+                loading.setVisibility(View.GONE);
                 Log.d(tag,s);
-                if(s.equals("2")){
-                    Toast.makeText(getBaseContext(),"账号或密码错误",Toast.LENGTH_SHORT).show();
-                }else {
-                    writeShared(userET.getText().toString());
+                if(s.equals("参数错误")){
+                    Toast.makeText(getBaseContext(),"账号错误",Toast.LENGTH_SHORT).show();
+                }else if(s.equals("密码错误")){
+                    Toast.makeText(getBaseContext(),"密码错误",Toast.LENGTH_SHORT).show();
+                } else {
+                    writeShared(s);
                     Intent intent = new Intent(LoginActivity.this,WorkActivity.class);
                     startActivity(intent);
                     finish();
                 }
             }
-        },new OkHttpManager.Param("username",userET.getText().toString()),new OkHttpManager.Param("password",pwdET.getText().toString()));
+        },new OkHttpManager.Param("username",userET.getText().toString()),new OkHttpManager.Param("password",pwdET.getText().toString()),new OkHttpManager.Param("method","findUserToLogin"));
     }
-    private void writeShared(String userName){
+    private void writeShared(String user){
         SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
-        editor.putString("userName",userName);
-        Constant.username=userET.getText().toString();
+        editor.putString("user",user);
+        Log.d("写入的用户参数",user);
+        Constant.user = (User) JSON.parseObject(user,User.class);
         editor.putBoolean("logined",true);
         editor.apply();
     }
@@ -95,6 +105,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.loginBtn:
+                loading.setVisibility(View.VISIBLE);
                 check(Constant.url+"UserServlet");
                 break;
             case R.id.qqLogin:

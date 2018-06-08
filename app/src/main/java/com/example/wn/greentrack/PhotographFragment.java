@@ -71,7 +71,7 @@ public class PhotographFragment extends Fragment {
     }
 
     public void paishe(){
-        outputImage1 =new File(getActivity().getExternalCacheDir(),Constant.username+".jpg");
+        outputImage1 =new File(getActivity().getExternalCacheDir(),Constant.user.getUsername()+".jpg");
         try{
             if(outputImage1.exists()){
                 outputImage1.delete();
