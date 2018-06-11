@@ -1,7 +1,12 @@
 package com.example.wn.greentrack.util;
 
+import com.alibaba.fastjson.JSON;
 import com.example.wn.greentrack.Constant;
+import com.example.wn.greentrack.domain.User;
 import com.example.wn.greentrack.net.OkHttpManager;
+
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import okhttp3.Request;
@@ -11,9 +16,10 @@ import okhttp3.Request;
  */
 
 public class Utils {
-    public static void getIntegral(){
+    //获取积分
+    public static void updateUser(){
         OkHttpManager okHttpManager = OkHttpManager.getInstance();
-        okHttpManager.postNet(Constant.url+"gtf",
+        okHttpManager.postNet(Constant.url+"UserServlet",
                 new OkHttpManager.ResultCallback(){
 
                     @Override
@@ -23,17 +29,19 @@ public class Utils {
 
                     @Override
                     public void onSuccess(String s) {
-                        if(true){
-                            Constant.user.setRewardPoints(Integer.valueOf(s));
-                            //Constant.textView.setText("当前积分："+Constant.user.getRewardPoints());
+                        if(!s.equals("无信息")){
+                            Constant.user = JSON.parseObject(s, User.class);
+                            if(Constant.rewardPoints!=null){
+                                Constant.rewardPoints.setText("当前积分："+Constant.user.getRewardPoints());
+                            }
                         }
                     }
-                },new OkHttpManager.Param("user",Constant.user.getUsername()));
+                },new OkHttpManager.Param("uuid",Constant.user.getUuid()),new OkHttpManager.Param("method","getUserByUuid"));
     }
 
     public static void addIntegral(int add){
         OkHttpManager okHttpManager = OkHttpManager.getInstance();
-        okHttpManager.postNet(Constant.url + "/setjifen", new OkHttpManager.ResultCallback() {
+        okHttpManager.postNet(Constant.url + "UserServlet", new OkHttpManager.ResultCallback() {
             @Override
             public void onFailed(Request request, IOException e) {
 
@@ -41,8 +49,9 @@ public class Utils {
 
             @Override
             public void onSuccess(String s) {
-                getIntegral();
+                if(s.equals("积分改变成功"));
+                updateUser();
             }
-        },new OkHttpManager.Param("user",Constant.user.getUsername()),new OkHttpManager.Param("add",String.valueOf(add)));
+        },new OkHttpManager.Param("uuid",Constant.user.getUuid()),new OkHttpManager.Param("updateNum",String.valueOf(add)),new OkHttpManager.Param("method","addRewardPoints"));
     }
 }

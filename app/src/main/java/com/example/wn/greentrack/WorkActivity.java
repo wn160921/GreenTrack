@@ -121,10 +121,12 @@ public class WorkActivity extends AppCompatActivity {
         exit = findViewById(R.id.exit);
         jifen = findViewById(R.id.jifen);
         discount = findViewById(R.id.discount);
-        Utils.getIntegral();
-        //Constant.textView=jifen;
-        Utils.getIntegral();
-        jifen.setText("当前积分："+ String.valueOf(Constant.user.getRewardPoints()));
+        Constant.rewardPoints =jifen;
+//        try{
+//            jifen.setText("当前积分："+ String.valueOf(Constant.user.getRewardPoints()));
+//        }catch (Exception e){
+//
+//        }
         about_us.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

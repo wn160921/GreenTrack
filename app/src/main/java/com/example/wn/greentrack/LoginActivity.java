@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,8 +36,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     //注册
     TextView register;
     TextView forgetPassword;
-    ImageButton qqLoginBtn;
-    ImageButton weiboLoginBtn;
+    ImageView qqLoginBtn;
+    ImageView weiboLoginBtn;
     EditText userET;
     EditText pwdET;
 
@@ -126,6 +127,36 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         }
     }
+
+    public void qqLoginCheck(String url,String openid){
+        loading.setVisibility(View.VISIBLE);
+        final String tag = "登录：";
+        OkHttpManager okHttpManager = OkHttpManager.getInstance();
+        okHttpManager.postNet(url,new OkHttpManager.ResultCallback(){
+            @Override
+            public void onFailed(Request request, IOException e) {
+                loading.setVisibility(View.GONE);
+                Toast.makeText(getBaseContext(),"无法联网",Toast.LENGTH_SHORT).show();
+                Log.d(tag,"联网问题");
+            }
+            @Override
+            public void onSuccess(String s) {
+                loading.setVisibility(View.GONE);
+                Log.d(tag,s);
+                if(s.equals("参数错误")){
+                    Toast.makeText(getBaseContext(),"账号错误",Toast.LENGTH_SHORT).show();
+                }else if(s.equals("密码错误")){
+                    Toast.makeText(getBaseContext(),"密码错误",Toast.LENGTH_SHORT).show();
+                } else {
+                    writeShared(s);
+                    Intent intent = new Intent(LoginActivity.this,WorkActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        },new OkHttpManager.Param("openid",openid),new OkHttpManager.Param("method","qqLogin"));
+    }
+
     private class BaseUiListener implements IUiListener {
 
         public void onComplete(Object response) {
@@ -145,13 +176,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 mTencent.setAccessToken(((JSONObject) response).getString("access_token"),((JSONObject) response).getString("expires_in"));
 
-
                 Log.v("TAG", "-------------"+openidString);
                 //access_token= ((JSONObject) response).getString("access_token");              //expires_in = ((JSONObject) response).getString("expires_in");
-                writeShared(userET.getText().toString());
-                Intent intent = new Intent(LoginActivity.this,WorkActivity.class);
-                startActivity(intent);
-                finish();
+                qqLoginCheck(Constant.url+"UserServlet",openidString);
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

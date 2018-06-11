@@ -39,7 +39,7 @@ public class OwnsActivity extends AppCompatActivity {
         quanList = new ArrayList<>();
         ownAdapter = new OwnAdapter(quanList,this);
         recyclerView.setAdapter(ownAdapter);
-        getdata();
+        //getdata();
     }
     public void getdata(){
         //Log.d("discounts",Constant.username);
@@ -52,18 +52,6 @@ public class OwnsActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String s) {
                 Log.d("discounts",s);
-                /*
-                突出亮点
-                伟大的事情
-
-                亮出市场调研
-                拉近距离
-
-                商业模式！！！
-
-                 */
-
-
                 String[] one = s.split(";");
                 if(one.length>=1){
                     for(int i=0;i<one.length;i++){

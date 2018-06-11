@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.example.wn.greentrack.Constant;
 import com.example.wn.greentrack.QuanActivity;
 import com.example.wn.greentrack.R;
+import com.example.wn.greentrack.domain.Coupon;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.List;
@@ -23,10 +24,10 @@ import java.util.List;
  */
 
 public class DiscountAdapter extends XRecyclerView.Adapter<DiscountAdapter.ViewHolder> {
-    private List<Discount> discountList;
+    private List<Coupon> discountList;
     Context context;
 
-    public DiscountAdapter(List<Discount> discountList,Context context){
+    public DiscountAdapter(List<Coupon> discountList, Context context){
         this.discountList=discountList;
         this.context=context;
     }
@@ -55,9 +56,9 @@ public class DiscountAdapter extends XRecyclerView.Adapter<DiscountAdapter.ViewH
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Discount discount = discountList.get(position);
-        holder.textView.setText(discount.text);
-        Glide.with(context).load(Constant.url+discount.url).into(holder.imageView);
+        Coupon discount = discountList.get(position);
+        holder.textView.setText(discount.getShow());
+        Glide.with(context).load(R.mipmap.ic_launcher).into(holder.imageView);
     }
 
     @Override

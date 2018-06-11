@@ -9,10 +9,10 @@ import com.example.wn.greentrack.domain.User;
  */
 
 public  class Constant {
-    public static String url = "http://10.187.207.197:8080/";
+    public static String url = "http://60.205.214.54:8080/green/";
     public static String shangjia = "小明旗舰店";
     public static User user=null;
-
+    public static TextView rewardPoints = null;
 
 }
 /**
